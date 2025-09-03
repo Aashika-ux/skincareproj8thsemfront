@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Product {
 
+
+
     private int id;
     private String name;
     private String slug;
@@ -32,6 +34,8 @@ public class Product {
 
     @SerializedName("recommended_by_doctors")
     private List<Doctor> recommendedByDoctors;
+
+    private static final String BASE_IMAGE_URL = "http://192.168.100.47:8000/image/product/";
 
     // ✅ Empty constructor required for Gson
     public Product() {}
@@ -65,12 +69,17 @@ public class Product {
     public String getTimeOfUse() { return timeOfUse; }
     public String getShelfLife() { return shelfLife; }
     public String getIncompatibleProducts() { return incompatibleProducts; }
-    public String getImage() { return image; }
-    public String getRecommendedFor() { return recommendedFor; }
-    // getter
-    public List<Doctor> getRecommendedByDoctors() {
-        return recommendedByDoctors;
+
+//     ✅ Always return full image URL
+    public String getImage() {
+        if (image != null && !image.startsWith("http")) {
+            return BASE_IMAGE_URL + image;
+        }
+        return image;
     }
+
+    public String getRecommendedFor() { return recommendedFor; }
+    public List<Doctor> getRecommendedByDoctors() { return recommendedByDoctors; }
 
     // Setters
     public void setId(int id) { this.id = id; }

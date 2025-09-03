@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Skin Detail Layout with Built-in Design Enhancements -->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF8F5"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Back Button -->
+        <ImageButton
+            android:id="@+id/btn_return"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@drawable/bg_circle_light"
+            android:src="@drawable/back"
+            app:tint="#FF7043"
+            android:contentDescription="Back"
+            android:padding="8dp"
+            android:layout_gravity="start"
+            android:elevation="4dp"/>
+
+        <!-- Hero Image with Shadow Effect -->
+        <FrameLayout
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="28dp"
+            android:clipToPadding="false">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:alpha="0.1"
+                android:layout_gravity="center"
+                android:elevation="2dp"
+                android:rotation="45"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:clipToOutline="true"
+                app:cardCornerRadius="80dp"
+                app:cardElevation="16dp"
+                android:layout_gravity="center"
+                android:backgroundTint="#FFFFFF">
+
+                <ImageView
+                    android:id="@+id/detail_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Skin Image"/>
+            </com.google.android.material.card.MaterialCardView>
+        </FrameLayout>
+
+        <!-- Skin Name -->
+        <TextView
+            android:id="@+id/detail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Oily Skin"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="#FF7043"
+            android:layout_marginTop="20dp"
+            android:letterSpacing="0.02"
+            android:gravity="center"
+            android:shadowColor="#FFE0B2"
+            android:shadowDx="0"
+            android:shadowDy="2"
+            android:shadowRadius="4"/>
+
+        <!-- Subtitle -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recommended Care and Tips"
+            android:textSize="16sp"
+            android:textColor="#757575"
+            android:layout_marginTop="8dp"
+            android:gravity="center"/>
+
+        <!-- Description Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="14dp"
+            android:backgroundTint="#FFFFFF"
+            app:strokeColor="#FFE0B2"
+            app:strokeWidth="1.5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:id="@+id/detail_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="#424242"
+                    android:lineSpacingExtra="8dp"
+                    android:textAlignment="viewStart"
+                    android:text="• Gently cleanse your skin twice a day.\n\n• Use oil-free moisturizers.\n\n• Apply matte-finish sunscreen daily.\n\n• Exfoliate 1-2 times per week.\n\n• Avoid heavy oily products.\n\n• Maintain a healthy diet for clear skin.\n\n• Stay hydrated to reduce excess sebum.\n\n• Follow a consistent skincare routine."/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Decorative Separator -->
+        <View
+            android:layout_width="80dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="28dp"
+            android:background="@android:color/darker_gray"
+            android:alpha="0.3"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+</ScrollView>

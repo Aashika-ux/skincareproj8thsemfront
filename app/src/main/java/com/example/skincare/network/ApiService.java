@@ -4,6 +4,8 @@ import com.example.skincare.model.ApiResponse;
 import com.example.skincare.model.AuthResponse;
 import com.example.skincare.model.Doctor;
 import com.example.skincare.model.Product;
+import com.example.skincare.model.Routine;
+import com.example.skincare.model.SkinType;
 import com.example.skincare.requests.LoginRequest;
 import com.example.skincare.requests.RegisterRequest;
 
@@ -11,6 +13,9 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -38,5 +43,22 @@ public interface ApiService {
     @GET("doctors/{id}/products")
     Call<ApiResponse<List<Product>>> getProductsByDoctor(@Path("id") int doctorId); // fetch products recommended by a doctor
 
+    @GET("skins")
+    Call<List<SkinType>> getSkins();
 
+    @GET("skins/{id}")
+    Call<SkinType> getSkin(@Path("id") int id);
+
+    // Get all routine products for logged-in user
+
+    // Routine
+    @GET("routines")
+    Call<ApiResponse<List<Product>>> getRoutineProducts();
+
+    @FormUrlEncoded
+    @POST("routines")
+    Call<ApiResponse<Void>> addToRoutine(@Field("product_id") int productId);
+
+    @DELETE("routines/{id}")
+    Call<ApiResponse<Void>> deleteRoutineProduct(@Path("id") int routineId);
 }

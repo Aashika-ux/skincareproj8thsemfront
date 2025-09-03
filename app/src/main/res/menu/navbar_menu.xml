@@ -16,8 +16,8 @@
         android:icon="@drawable/face"/>
 
     <item
-        android:id="@+id/notification"
-        android:title="Notify"
+        android:id="@+id/routine"
+        android:title="Routine"
         android:icon="@drawable/baseline_notifications_24"/>
 
     <item

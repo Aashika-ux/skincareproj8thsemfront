@@ -15,6 +15,8 @@ import com.example.skincare.fragments.HomePageFragment;
 import com.example.skincare.fragments.ProfileFragment;
 import com.example.skincare.fragments.SkinCareFragment;
 import com.example.skincare.fragments.SkinQuizFragment;
+import com.example.skincare.fragments.RoutinePageFragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomePageActivity extends AppCompatActivity {
@@ -39,8 +41,8 @@ public class HomePageActivity extends AppCompatActivity {
                 replaceFragment(new HomePageFragment());
             } else if (item.getItemId() == R.id.care) {
                 replaceFragment(new SkinCareFragment());
-            } else if (item.getItemId() == R.id.notification) {
-                replaceFragment(new NotifyFragment());
+            } else if (item.getItemId() == R.id.routine) {
+                replaceFragment(new RoutinePageFragment());
             } else if (item.getItemId() == R.id.person) {
                 replaceFragment(new ProfileFragment());
             } else if (item.getItemId() == R.id.face) {
@@ -64,7 +66,13 @@ public class HomePageActivity extends AppCompatActivity {
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if (findViewById(R.id.frameFragmentLayout) == null) {
+            throw new RuntimeException("frameFragmentLayout not found! Check XML.");
+        }
+
         fragmentTransaction.replace(R.id.frameFragmentLayout, fragment);
         fragmentTransaction.commit();
     }
+
 }

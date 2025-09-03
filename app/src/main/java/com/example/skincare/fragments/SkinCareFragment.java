@@ -1,91 +1,81 @@
 package com.example.skincare.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skincare.R;
+import com.example.skincare.adapter.SkinAdapter;
+import com.example.skincare.model.SkinType;
+import com.example.skincare.network.RetrofitClient;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SkinCareFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SkinCareFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RecyclerView recyclerView;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public SkinCareFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SkinCareFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SkinCareFragment newInstance(String param1, String param2) {
-        SkinCareFragment fragment = new SkinCareFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_skin_care, container, false);
+        recyclerView = view.findViewById(R.id.skinTypeRecycler);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
+
+        fetchSkinTypes();
+        return view;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_skin_care, container, false);
+    private void fetchSkinTypes() {
+        Call<List<SkinType>> call = RetrofitClient.getApi(getContext()).getSkins();
 
-        // IDs of all image buttons
-        int[] imageIds = {
-                R.id.btnDrySkin, R.id.btnOilySkin, R.id.btnNormalSkin, R.id.btnCombinationSkin
-        };
+        call.enqueue(new Callback<List<SkinType>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<SkinType>> call, @NonNull Response<List<SkinType>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<SkinType> list = response.body();
 
-        // Single click listener for all images
-        View.OnClickListener navigateListener = v -> {
-            // Replace fragment with ProductDetailsFragment
-            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-            transaction.replace(R.id.frameFragmentLayout, new SkinTypeFragment());
-            transaction.addToBackStack(null);
-            transaction.commit();
-        };
+                    SkinAdapter adapter = new SkinAdapter(getContext(), list, skinType -> {
+                        // Navigate to SkinDetailFragment
+                        SkinDetailFragment detailFragment = new SkinDetailFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id", skinType.getId());
+                        detailFragment.setArguments(bundle);
 
-        // Assign the listener to all image views
-        for (int id : imageIds) {
-            ImageView imageView = rootView.findViewById(id);
-            imageView.setOnClickListener(navigateListener);
-        }
+                        getParentFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frameFragmentLayout, detailFragment)
+                                .addToBackStack(null)
+                                .commit();
+                    });
 
-        // Inflate the layout for this fragment
-        return rootView;
+                    recyclerView.setAdapter(adapter);
+
+                } else {
+                    Toast.makeText(getContext(), "Failed to fetch skin types", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<SkinType>> call, @NonNull Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

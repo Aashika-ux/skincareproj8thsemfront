@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,15 +16,22 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.skincare.R;
+import com.example.skincare.model.ApiResponse;
 import com.example.skincare.model.Doctor;
 import com.example.skincare.model.Product;
+import com.example.skincare.network.ApiService;
+import com.example.skincare.network.RetrofitClient;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.ShapeAppearanceModel;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProductDetailsFragment extends Fragment {
 
@@ -32,12 +40,10 @@ public class ProductDetailsFragment extends Fragment {
     private TextView productName, recommendedFor, productDescription, productUsageContent,
             contentExpectedResults, timeOfUse, shelfLife, tvRecommendedBy;
     private ChipGroup chipGroupIncompatible;
-
+    private MaterialButton btnAddToRoutine;
     private Product product;
-
-    public ProductDetailsFragment() {
-        // Required empty constructor
-    }
+    private int productId;
+    private boolean openedFromRoutine = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,87 +66,117 @@ public class ProductDetailsFragment extends Fragment {
         shelfLife = view.findViewById(R.id.shelf_life);
         chipGroupIncompatible = view.findViewById(R.id.chipgroup_incompatible_products);
         tvRecommendedBy = view.findViewById(R.id.tv_recommended_by);
+        btnAddToRoutine = view.findViewById(R.id.btn_add_to_routine);
 
         btnBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
-        // Retrieve product data from arguments
-        List<Doctor> doctors = new ArrayList<>();
         if (getArguments() != null) {
-            product = new Product(
-                    getArguments().getInt("id"),
-                    getArguments().getString("name"),
-                    null, // slug not used here
-                    getArguments().getString("description"),
-                    getArguments().getString("expectedResults"),
-                    getArguments().getString("usageInstructions"),
-                    getArguments().getString("timeOfUse"),
-                    getArguments().getString("shelfLife"),
-                    getArguments().getString("incompatibleProducts"),
-                    getArguments().getString("image"),
-                    getArguments().getString("recommendedFor"),
-                    new ArrayList<>()
-            );
+            productId = getArguments().getInt("id");
+            openedFromRoutine = getArguments().getBoolean("fromRoutine", false);
 
-            // ----------------------- UPDATED -----------------------
-            // Retrieve doctors list passed as Serializable
-            List<Doctor> passedDoctors = (List<Doctor>) getArguments().getSerializable("recommendedByDoctorsList");
-            if (passedDoctors != null) doctors.addAll(passedDoctors);
-            // -------------------------------------------------------
-        }
-
-        if (product != null) {
-            productName.setText(product.getName());
-            recommendedFor.setText("Skin type: " + product.getRecommendedFor());
-            productDescription.setText(product.getDescription());
-            productUsageContent.setText(product.getUsageInstructions());
-            contentExpectedResults.setText(product.getExpectedResults());
-            timeOfUse.setText(product.getTimeOfUse());
-            shelfLife.setText(product.getShelfLife());
-
-            // Load image with Glide
-            String imageUrl = product.getImage();
-            if (imageUrl != null && !imageUrl.startsWith("http")) {
-                imageUrl = "http://192.168.10.5:8000/image/product/" + imageUrl;
-            }
-
-            Glide.with(getContext())
-                    .load(imageUrl != null ? imageUrl : R.drawable.amcare)
-                    .placeholder(R.drawable.amcare)
-                    .into(productImage);
-
-            // Populate incompatible products chips
-            chipGroupIncompatible.removeAllViews();
-            if (product.getIncompatibleProducts() != null && !product.getIncompatibleProducts().isEmpty()) {
-                String[] items = product.getIncompatibleProducts().split(",");
-                for (String item : items) {
-                    Chip chip = new Chip(getContext());
-                    chip.setText(item.trim());
-                    chip.setTextColor(Color.WHITE);
-                    chip.setChipBackgroundColorResource(R.color.primary_color);
-                    // Use ShapeAppearanceModel to set corner radius
-                    ShapeAppearanceModel shapeModel = chip.getShapeAppearanceModel()
-                            .toBuilder()
-                            .setAllCorners(CornerFamily.ROUNDED, 16f) // 16f is in pixels
-                            .build();
-                    chip.setShapeAppearanceModel(shapeModel);
-                    chip.setClickable(false);
-                    chipGroupIncompatible.addView(chip);
-                }
-            }
-
-            // ----------------------- UPDATED -----------------------
-            // Populate recommended by doctors
-            if (!doctors.isEmpty()) {
-                StringBuilder names = new StringBuilder();
-                for (Doctor d : doctors) {
-                    if (names.length() > 0) names.append(", ");
-                    names.append(d.getName());
-                }
-                tvRecommendedBy.setText("Recommended by: " + names);
+            if (openedFromRoutine) {
+                btnAddToRoutine.setVisibility(View.GONE);
             } else {
-                tvRecommendedBy.setText(""); // hide if none
+                btnAddToRoutine.setOnClickListener(v -> addToRoutine());
             }
-            // -------------------------------------------------------
+
+            fetchProductDetailsFromBackend(productId);
         }
+    }
+
+    private void fetchProductDetailsFromBackend(int id) {
+        ApiService apiService = RetrofitClient.getApi(getContext());
+        Call<ApiResponse<Product>> call = apiService.getProductDetails(id);
+
+        call.enqueue(new Callback<ApiResponse<Product>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<Product>> call, Response<ApiResponse<Product>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                    product = response.body().getData();
+                    showProductDetails(product);
+                    showRecommendedDoctors(product.getRecommendedByDoctors());
+                } else {
+                    Toast.makeText(getContext(), "Failed to load product", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<Product>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showProductDetails(Product product) {
+        productName.setText(product.getName());
+        recommendedFor.setText("Skin type: " + product.getRecommendedFor());
+        productDescription.setText(product.getDescription());
+        productUsageContent.setText(product.getUsageInstructions());
+        contentExpectedResults.setText(product.getExpectedResults());
+        timeOfUse.setText(product.getTimeOfUse());
+        shelfLife.setText(product.getShelfLife());
+
+        Glide.with(getContext())
+                .load(product.getImage() != null ? product.getImage() : R.drawable.amcare)
+                .placeholder(R.drawable.amcare)
+                .into(productImage);
+
+        chipGroupIncompatible.removeAllViews();
+        if (product.getIncompatibleProducts() != null && !product.getIncompatibleProducts().isEmpty()) {
+            String[] items = product.getIncompatibleProducts().split(",");
+            for (String item : items) {
+                Chip chip = new Chip(getContext());
+                chip.setText(item.trim());
+                chip.setTextColor(Color.WHITE);
+                chip.setChipBackgroundColorResource(R.color.primary_color);
+                ShapeAppearanceModel shapeModel = chip.getShapeAppearanceModel()
+                        .toBuilder()
+                        .setAllCorners(CornerFamily.ROUNDED, 16f)
+                        .build();
+                chip.setShapeAppearanceModel(shapeModel);
+                chip.setClickable(false);
+                chipGroupIncompatible.addView(chip);
+            }
+        }
+    }
+
+    private void showRecommendedDoctors(List<Doctor> doctors) {
+        if (doctors != null && !doctors.isEmpty()) {
+            StringBuilder names = new StringBuilder();
+            for (Doctor d : doctors) {
+                if (names.length() > 0) names.append(", ");
+                names.append(d.getName()).append(" (").append(d.getSpecialization()).append(")");
+            }
+            tvRecommendedBy.setText("Recommended by: " + names.toString());
+        } else {
+            tvRecommendedBy.setText("No doctors recommended this product.");
+        }
+    }
+
+    private void addToRoutine() {
+        if (product == null) return;
+
+        ApiService apiService = RetrofitClient.getApi(requireContext());
+        apiService.addToRoutine(product.getId()).enqueue(new Callback<ApiResponse<Void>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<Void>> call, Response<ApiResponse<Void>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                    // Refresh Routine page if visible
+                    Fragment fragment = getParentFragmentManager().findFragmentById(R.id.frameFragmentLayout);
+                    if (fragment instanceof RoutinePageFragment) {
+                        ((RoutinePageFragment) fragment).fetchRoutineProducts();
+                    }
+                } else {
+                    Toast.makeText(getContext(), " product already added to routine", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<Void>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

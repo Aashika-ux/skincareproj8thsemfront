@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -21,11 +22,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileFragment extends Fragment {
+public class  ProfileFragment extends Fragment {
 
-    private CardView logoutBtn,doctorsCard,skinProfileCard;
+    private CardView logoutBtn,doctorsCard,skinProfileCard, routinecard;
     public TextView username, text_profile_name, email;
     private PreferenceManager preferenceManager;
+
 
     @Nullable
     @Override
@@ -44,6 +46,16 @@ public class ProfileFragment extends Fragment {
         logoutBtn = view.findViewById(R.id.logoutBtn);
         doctorsCard = view.findViewById(R.id.doctors);
         skinProfileCard = view.findViewById(R.id.userProfile);
+
+        routinecard = view.findViewById(R.id.myroutine);
+
+        routinecard.setOnClickListener(v -> {
+            RoutinePageFragment routinePageFragment = new RoutinePageFragment();
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.frameFragmentLayout, routinePageFragment)
+                    .addToBackStack(null) // allows back navigation
+                    .commit();
+        });
 
         skinProfileCard.setOnClickListener(v -> {
             UserProfileFragment userProfileFragment = new UserProfileFragment();

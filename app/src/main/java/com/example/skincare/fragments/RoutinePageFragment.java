@@ -1,66 +1,119 @@
 package com.example.skincare.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.skincare.R;
+import com.example.skincare.adapter.RoutineAdapter;
+import com.example.skincare.model.ApiResponse;
+import com.example.skincare.model.Product;
+import com.example.skincare.network.ApiService;
+import com.example.skincare.network.RetrofitClient;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RoutinePageFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RoutinePageFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public RoutinePageFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RoutinePageFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RoutinePageFragment newInstance(String param1, String param2) {
-        RoutinePageFragment fragment = new RoutinePageFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private RecyclerView recyclerView;
+    private RoutineAdapter adapter;
+    private List<Product> routineProducts = new ArrayList<>();
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_routine_page, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        recyclerView = view.findViewById(R.id.recycler_View_Routine);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        adapter = new RoutineAdapter(routineProducts);
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new RoutineAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Product product) {
+                // Open ProductDetailFragment without Add button
+                ProductDetailsFragment fragment = new ProductDetailsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", product.getId());
+                bundle.putBoolean("fromRoutine", true);
+                fragment.setArguments(bundle);
+
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameFragmentLayout, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+
+            @Override
+            public void onDeleteClick(Product product) {
+                ApiService apiService = RetrofitClient.getApi(requireContext());
+                Call<ApiResponse<Void>> call = apiService.deleteRoutineProduct(product.getId());
+
+                call.enqueue(new Callback<ApiResponse<Void>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<Void>> call, Response<ApiResponse<Void>> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(getContext(), "Deleted from routine", Toast.LENGTH_SHORT).show();
+                            routineProducts.remove(product);
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getContext(), "Failed to delete", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<Void>> call, Throwable t) {
+                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        });
+
+        fetchRoutineProducts();
+    }
+
+    public void fetchRoutineProducts() {
+        ApiService apiService = RetrofitClient.getApi(requireContext());
+        Call<ApiResponse<List<Product>>> call = apiService.getRoutineProducts();
+
+        call.enqueue(new Callback<ApiResponse<List<Product>>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<List<Product>>> call, Response<ApiResponse<List<Product>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                    routineProducts.clear();
+                    routineProducts.addAll(response.body().getData());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "Failed to load routine", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<List<Product>>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

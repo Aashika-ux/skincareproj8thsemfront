@@ -54,7 +54,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         String imageUrl = product.getImage();
         if (imageUrl != null && !imageUrl.startsWith("http")) {
-            imageUrl = "http://192.168.10.5:8000/image/product/" + imageUrl;
+            imageUrl = "http://192.168.100.47:8000/image/product/" + imageUrl;
         }
 
         Glide.with(context)

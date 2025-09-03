@@ -1,144 +1,306 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Title -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primary_color"
         android:orientation="vertical"
-        android:padding="20dp"
+        android:padding="24dp"
         android:gravity="center">
+
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:text="Skin Type Questionnaire"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:layout_gravity="center" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose what you experience with your skin to know about your skin type."
+            android:text="Choose what you experience with your skin to know your skin type."
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:layout_marginTop="8dp"/>
     </LinearLayout>
 
-<ScrollView
-    android:id="@+id/scroll_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    android:padding="16dp">
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
-        <!-- Question 1 -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1. How does your skin feel 1 hour after washing?"
-            android:textSize="18sp"
-            android:textColor="@color/text_color"
-            android:layout_marginBottom="8dp"/>
-        <RadioGroup
-            android:id="@+id/rg_question1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="16dp">
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q1_option1" android:text="Tight" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q1_option2" android:text="Normal" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q1_option3" android:text="Oily" android:textColor="@color/text_color"/>
-        </RadioGroup>
+            android:orientation="vertical">
 
-        <!-- Question 2 -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="2. How often do you get breakouts?" android:textSize="18sp"
-            android:textColor="@color/text_color" android:layout_marginBottom="8dp"/>
-        <RadioGroup android:id="@+id/rg_question2" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="16dp">
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q2_option1" android:text="Often" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q2_option2" android:text="Sometimes" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q2_option3" android:text="Rarely" android:textColor="@color/text_color"/>
-        </RadioGroup>
+            <!-- Question 1 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                card_view:cardCornerRadius="12dp"
+                card_view:cardElevation="6dp">
 
-        <!-- Question 3 -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="3. How sensitive is your skin to new products?" android:textSize="18sp"
-            android:textColor="@color/text_color" android:layout_marginBottom="8dp"/>
-        <RadioGroup android:id="@+id/rg_question3" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="16dp">
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q3_option1" android:text="Very" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q3_option2" android:text="Moderate" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q3_option3" android:text="Low" android:textColor="@color/text_color"/>
-        </RadioGroup>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-        <!-- Question 4 -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="4. How does your skin react to the sun?" android:textSize="18sp"
-            android:textColor="@color/text_color" android:layout_marginBottom="8dp"/>
-        <RadioGroup android:id="@+id/rg_question4" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="16dp">
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q4_option1" android:text="Burns easily" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q4_option2" android:text="Tans easily" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q4_option3" android:text="Both" android:textColor="@color/text_color"/>
-        </RadioGroup>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1. How does your skin feel 1 hour after washing?"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_color"
+                        android:layout_marginBottom="8dp"/>
 
-        <!-- Question 5 -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="5. How shiny does your skin get during the day?" android:textSize="18sp"
-            android:textColor="@color/text_color" android:layout_marginBottom="8dp"/>
-        <RadioGroup android:id="@+id/rg_question5" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="16dp">
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q5_option1" android:text="Very shiny" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q5_option2" android:text="Slightly shiny" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q5_option3" android:text="Not shiny" android:textColor="@color/text_color"/>
-        </RadioGroup>
+                    <RadioGroup
+                        android:id="@+id/rg_question1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton android:id="@+id/q1_option1" android:text="Tight" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q1_option2" android:text="Normal" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q1_option3" android:text="Oily" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q1_option4" android:text="Sensitive" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    </RadioGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-        <!-- Question 6 -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="6. How often does your skin feel dry or flaky?" android:textSize="18sp"
-            android:textColor="@color/text_color" android:layout_marginBottom="8dp"/>
-        <RadioGroup android:id="@+id/rg_question6" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="16dp">
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q6_option1" android:text="Often" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q6_option2" android:text="Sometimes" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q6_option3" android:text="Rarely" android:textColor="@color/text_color"/>
-        </RadioGroup>
+            <!-- Question 2 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                card_view:cardCornerRadius="12dp"
+                card_view:cardElevation="6dp">
 
-        <!-- Question 7 -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="7. Do you have redness or irritation on your skin?" android:textSize="18sp"
-            android:textColor="@color/text_color" android:layout_marginBottom="8dp"/>
-        <RadioGroup android:id="@+id/rg_question7" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="24dp">
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q7_option1" android:text="Often" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q7_option2" android:text="Sometimes" android:textColor="@color/text_color"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/q7_option3" android:text="Rarely" android:textColor="@color/text_color"/>
-        </RadioGroup>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-        <!-- Submit Button -->
-        <Button
-            android:id="@+id/btn_submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Submit"
-            android:backgroundTint="@color/button_color"
-            android:textColor="@color/background"
-            android:textSize="18sp"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2. How often do you get breakouts?"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_color"
+                        android:layout_marginBottom="8dp"/>
 
-    </LinearLayout>
-</ScrollView>
+                    <RadioGroup
+                        android:id="@+id/rg_question2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton android:id="@+id/q2_option1" android:text="Often" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q2_option2" android:text="Sometimes" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q2_option3" android:text="Rarely" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q2_option4" android:text="Normal" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    </RadioGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Question 3 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                card_view:cardCornerRadius="12dp"
+                card_view:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3. How sensitive is your skin to new products?"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_color"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rg_question3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton android:id="@+id/q3_option1" android:text="Very" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q3_option2" android:text="Moderate" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q3_option3" android:text="Low" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q3_option4" android:text="Normal" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    </RadioGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Question 4 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                card_view:cardCornerRadius="12dp"
+                card_view:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4. How does your skin react to the sun?"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_color"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rg_question4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton android:id="@+id/q4_option1" android:text="Burns easily" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q4_option2" android:text="Tans easily" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q4_option3" android:text="Both" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q4_option4" android:text="Normal" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    </RadioGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Question 5 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                card_view:cardCornerRadius="12dp"
+                card_view:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5. How shiny does your skin get during the day?"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_color"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rg_question5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton android:id="@+id/q5_option1" android:text="Very shiny" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q5_option2" android:text="Slightly shiny" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q5_option3" android:text="Not shiny" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q5_option4" android:text="Normal" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    </RadioGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Question 6 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                card_view:cardCornerRadius="12dp"
+                card_view:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="6. How often does your skin feel dry or flaky?"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_color"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rg_question6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton android:id="@+id/q6_option1" android:text="Often" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q6_option2" android:text="Sometimes" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q6_option3" android:text="Rarely" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q6_option4" android:text="Normal" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    </RadioGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Question 7 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                card_view:cardCornerRadius="12dp"
+                card_view:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7. Do you have redness or irritation on your skin?"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_color"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rg_question7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton android:id="@+id/q7_option1" android:text="Often" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q7_option2" android:text="Sometimes" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q7_option3" android:text="Rarely" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <RadioButton android:id="@+id/q7_option4" android:text="Normal" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    </RadioGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Submit Button -->
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:backgroundTint="@color/button_color"
+                android:textColor="@color/background"
+                android:textSize="18sp"
+                android:padding="12dp"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

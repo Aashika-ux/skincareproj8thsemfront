@@ -1,153 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    tools:context=".RoutinePageFragment">
+    android:orientation="vertical"
+    android:background="@drawable/bg_routine_fragment"
+    android:padding="1dp"
+    tools:context=".fragments.RoutinePageFragment">
 
-    <!-- Back Button -->
-    <ImageButton
-        android:id="@+id/btn_back"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/back"
-        android:src="@drawable/baseline_arrow_back_ios_new_24"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="8dp" />
-
-    <!-- Settings Button -->
-    <ImageButton
-        android:id="@+id/btn_settings"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/baseline_settings_24"
-        android:contentDescription="@string/settings_for"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp" />
-
-
-    <!-- Title -->
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="My Routine"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp" />
-
-    <!-- First Notification Card -->
-    <RelativeLayout
-        android:id="@+id/card1"
+    <!-- Header with Centered Title -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_title"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/curved_rectangle"
-        android:backgroundTint="@color/primary_color"
-        android:padding="12dp">
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:background="@color/primary_color"
+        android:elevation="6dp"
+        android:clipToPadding="false"
+        android:layout_marginBottom="8dp"
+        android:gravity="center">
 
-        <ImageView
-            android:id="@+id/image1"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:contentDescription="@string/anotherimage"
-            android:scaleType="centerCrop"
-            android:src="@drawable/niacinamide" />
 
-        <ImageView
-            android:id="@+id/menuIcon1"
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            app:tint="@color/white"
-            android:contentDescription="@string/dot_image"
-            android:src="@drawable/dots" />
-
-        <TextView
-            android:id="@+id/title1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/image1"
-            android:layout_toStartOf="@id/menuIcon1"
-            android:layout_alignTop="@id/image1"
-            android:layout_marginStart="12dp"
-            android:text="Revive Your Skin"
+            android:text="My Routine"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textColor="@android:color/white"
+            android:layout_marginStart="16dp"
+            android:gravity="center"/>
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/desc1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/title1"
-            android:layout_alignStart="@id/title1"
-            android:layout_marginTop="4dp"
-            android:text="Enriched with vitamins and antioxidants, it nourishes, hydrates, and protects your skin against daily stress and pollution."
-            android:textSize="13sp"
-            android:textColor="@color/white" />
-    </RelativeLayout>
-
-    <!-- Second Notification Card -->
-    <RelativeLayout
-        android:id="@+id/card2"
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_View_Routine"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/card1"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/curved_rectangle"
-        android:backgroundTint="@color/primary_color"
-        android:padding="12dp">
-
-        <ImageView
-            android:id="@+id/image2"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:contentDescription="@string/image"
-            android:scaleType="centerCrop"
-            android:src="@drawable/retinol" />
-
-        <ImageView
-            android:id="@+id/menuIcon2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            app:tint="@color/white"
-            android:src="@drawable/dots" />
-
-        <TextView
-            android:id="@+id/title2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/image2"
-            android:layout_toStartOf="@id/menuIcon2"
-            android:layout_alignTop="@id/image2"
-            android:layout_marginStart="12dp"
-            android:text="Lightweight Care, Powerful Results"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/desc2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/title2"
-            android:layout_alignStart="@id/title2"
-            android:layout_marginTop="4dp"
-            android:text="Enriched with vitamins and antioxidants, it nourishes, hydrates, and protects your skin against daily stress and pollution."
-            android:textSize="13sp"
-            android:textColor="@color/white" />
-    </RelativeLayout>
-
-</RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"
+        android:scrollbars="vertical"/>
+</LinearLayout>
