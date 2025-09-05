@@ -6,6 +6,8 @@ import com.example.skincare.model.Doctor;
 import com.example.skincare.model.Product;
 import com.example.skincare.model.Routine;
 import com.example.skincare.model.SkinType;
+import com.example.skincare.model.UpdateProfileRequest;
+import com.example.skincare.model.UserResponse;
 import com.example.skincare.requests.LoginRequest;
 import com.example.skincare.requests.RegisterRequest;
 
@@ -18,6 +20,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -61,4 +64,14 @@ public interface ApiService {
 
     @DELETE("routines/{id}")
     Call<ApiResponse<Void>> deleteRoutineProduct(@Path("id") int routineId);
+
+    // Fetch logged-in user's profile
+    @GET("profile")
+    Call<UserResponse> getProfile();
+
+    // Update logged-in user's profile
+    @PUT("profile")
+    Call<UserResponse> updateProfile(@Body UpdateProfileRequest updateProfileRequest);
+
+
 }

@@ -4,49 +4,57 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:padding="12dp"
-    android:layout_margin="5dp"
+    android:padding="16dp"
+    android:layout_margin="8dp"
     android:background="@drawable/curved_rectangle"
-    android:backgroundTint="@color/primary_color"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:elevation="6dp"
+    android:clipToPadding="false"
+    android:foreground="?attr/selectableItemBackground"
+    android:backgroundTint="@color/white">
 
     <!-- Doctor image -->
-    <ImageView
-        android:id="@+id/img_doctor"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/doctor"
-        android:scaleType="centerCrop"
-        android:contentDescription="Doctor Image"
-        android:layout_marginEnd="12dp"
-        android:background="@drawable/round"
-        app:tint="@color/primary_color"
-        android:clipToOutline="true"
-        android:backgroundTint="@color/white"/>
+<ImageView
+android:id="@+id/img_doctor"
+android:layout_width="64dp"
+android:layout_height="64dp"
+android:src="@drawable/profilepicture"
+android:scaleType="centerCrop"
+android:contentDescription="Doctor Image"
+android:layout_marginEnd="16dp"
+android:background="@drawable/gradient_glow_circle"
+android:clipToOutline="true"
+android:backgroundTint="@color/white"/>
+<!--app:tint="@color/primary_color" />-->
 
     <!-- Doctor details -->
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+<LinearLayout
+android:layout_width="0dp"
+android:layout_weight="1"
+android:layout_height="wrap_content"
+android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_doctor_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dr. Name"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+<TextView
+    android:id="@+id/tv_doctor_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Dr. Name"
+    android:textColor="@color/black"
+    android:textSize="18sp"
+    android:textStyle="bold"
+    android:ellipsize="end"
+    android:singleLine="true"
+    android:scrollHorizontally="true"/>
 
-        <TextView
-            android:id="@+id/tv_doctor_specialization"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Specialization"
-            android:textSize="16sp"
-            android:textColor="@color/white"/>
-    </LinearLayout>
-
+<TextView
+    android:id="@+id/tv_doctor_specialization"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Specialization"
+    android:textSize="16sp"
+    android:textColor="@color/black"
+    android:ellipsize="end"
+    android:singleLine="true"/>
 </LinearLayout>
+
+    </LinearLayout>

@@ -1,78 +1,132 @@
 package com.example.skincare.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.skincare.R;
+import com.example.skincare.model.UserResponse;
+import com.example.skincare.network.ApiService;
+import com.example.skincare.network.RetrofitClient;
 import com.google.android.material.button.MaterialButton;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UserProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class UserProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private ImageView profileImage, back_button;
+    private TextView profileName, profileEmail, profileAge, profileGender,
+            profileSkinType, profileConcerns, profileRoutine, profileEmailStatus;
+    private MaterialButton btnEditProfile;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2 ;
-    private MaterialButton btn_edit_profile;
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final int REFRESH_INTERVAL = 3000; // 3 seconds
+
+    private final Runnable refreshRunnable = new Runnable() {
+        @Override
+        public void run() {
+            fetchUserProfile();
+            handler.postDelayed(this, REFRESH_INTERVAL);
+        }
+    };
 
     public UserProfileFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UserProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static UserProfileFragment newInstance(String param1, String param2) {
-        UserProfileFragment fragment = new UserProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
-         btn_edit_profile =view.findViewById(R.id.btn_edit_profile);
-         
-        btn_edit_profile.setOnClickListener(v -> {
-            EditUserProfileFragment edituserProfileFragment = new EditUserProfileFragment();
+
+        // Bind views
+        profileImage = view.findViewById(R.id.profile_image);
+        profileName = view.findViewById(R.id.profile_name);
+        profileEmail = view.findViewById(R.id.profile_email);
+        profileAge = view.findViewById(R.id.profile_age);
+        profileGender = view.findViewById(R.id.profile_gender);
+        profileSkinType = view.findViewById(R.id.profile_skin_type);
+        profileConcerns = view.findViewById(R.id.profile_concerns);
+        profileRoutine = view.findViewById(R.id.profile_routine);
+        profileEmailStatus = view.findViewById(R.id.profile_email_status);
+        btnEditProfile = view.findViewById(R.id.btn_edit_profile);
+         back_button = view.findViewById(R.id.back_button);
+
+
+        back_button.setOnClickListener(v -> {
+          ProfileFragment profileFragment = new ProfileFragment();
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.frameFragmentLayout, edituserProfileFragment)
-                    .addToBackStack(null) // allows back navigation
+                    .replace(R.id.frameFragmentLayout, profileFragment)
+                    .addToBackStack(null)
                     .commit();
         });
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_profile, container, false);
+        // Edit Profile button click
+        btnEditProfile.setOnClickListener(v -> {
+            EditUserProfileFragment editFragment = new EditUserProfileFragment();
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.frameFragmentLayout, editFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        // Start polling for user data
+        handler.post(refreshRunnable);
+
+        return view;
+    }
+
+    private void fetchUserProfile() {
+        ApiService apiService = RetrofitClient.getApi(requireContext());
+        Call<UserResponse> call = apiService.getProfile();
+
+        call.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<UserResponse> call, @NonNull Response<UserResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    UserResponse.User user = response.body().getUser();
+                    populateProfile(user);
+                } else {
+                    Toast.makeText(getContext(), "Failed to load profile", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<UserResponse> call, @NonNull Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void populateProfile(UserResponse.User user) {
+        profileName.setText(user.getUsername());
+        profileEmail.setText(user.getEmail());
+        profileAge.setText(user.getAge() != null ? String.valueOf(user.getAge()) : "N/A");
+        profileGender.setText(user.getGender() != null ? user.getGender() : "N/A");
+        profileSkinType.setText("Normal to Dry"); // Replace with backend field if available
+        profileConcerns.setText("Acne, Pigmentation"); // Replace with backend field
+        profileRoutine.setText("Morning: Cleanser, Vitamin C, Sunscreen\nEvening: Cleanser, Moisturizer, Retinol"); // Replace if backend data
+        profileEmailStatus.setText(user.getEmail_verified_at() != null ? "Verified" : "Not Verified");
+
+        // Optional: load profile image if backend provides URL
+        // Glide.with(this).load(user.getProfileImageUrl()).into(profileImage);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Stop polling to prevent memory leaks
+        handler.removeCallbacks(refreshRunnable);
     }
 }

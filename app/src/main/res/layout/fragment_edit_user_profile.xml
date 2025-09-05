@@ -22,20 +22,11 @@
             android:scaleType="centerCrop"
             android:layout_marginTop="32dp" />
 
-        <!-- Change Picture Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_change_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Change Picture"
-            android:textColor="@color/background"
-            android:backgroundTint="@color/primary_color"
-            android:layout_marginTop="12dp"
-            app:cornerRadius="8dp" />
-
-        <!-- Name -->
+        <!-- Username -->
         <TextView
-            android:text="Full Name"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Username"
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="@color/primary_color"
@@ -46,13 +37,15 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/primary_color"
             android:textColor="@color/text_color"
-            android:hint="Enter your name"
+            android:hint="Enter your username"
             android:padding="12dp"
             android:layout_marginTop="4dp"
             android:inputType="textPersonName" />
 
         <!-- Email -->
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Email"
             android:textStyle="bold"
             android:textSize="16sp"
@@ -69,25 +62,90 @@
             android:layout_marginTop="4dp"
             android:inputType="textEmailAddress" />
 
-        <!-- Age / Gender -->
+        <!-- Age -->
         <TextView
-            android:text="Age / Gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age"
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="@color/primary_color"
             android:layout_marginTop="16dp" />
         <EditText
-            android:id="@+id/edit_age_gender"
+            android:id="@+id/edit_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/primary_color"
             android:textColor="@color/text_color"
-            android:hint="e.g. 26 / Female"
+            android:hint="Enter your age"
             android:padding="12dp"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp"
+            android:inputType="number" />
+
+        <!-- Gender -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/primary_color"
+            android:layout_marginTop="16dp" />
+        <EditText
+            android:id="@+id/edit_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primary_color"
+            android:textColor="@color/text_color"
+            android:hint="Male / Female / Other"
+            android:padding="12dp"
+            android:layout_marginTop="4dp"
+            android:inputType="text" />
+
+        <!-- Password -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Password (optional)"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/primary_color"
+            android:layout_marginTop="16dp" />
+        <EditText
+            android:id="@+id/edit_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primary_color"
+            android:textColor="@color/text_color"
+            android:hint="Enter new password"
+            android:padding="12dp"
+            android:layout_marginTop="4dp"
+            android:inputType="textPassword" />
+
+        <!-- Confirm Password -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm Password"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/primary_color"
+            android:layout_marginTop="16dp" />
+        <EditText
+            android:id="@+id/edit_confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primary_color"
+            android:textColor="@color/text_color"
+            android:hint="Confirm new password"
+            android:padding="12dp"
+            android:layout_marginTop="4dp"
+            android:inputType="textPassword" />
 
         <!-- Skin Type -->
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Skin Type"
             android:textStyle="bold"
             android:textSize="16sp"
@@ -103,25 +161,10 @@
             android:padding="12dp"
             android:layout_marginTop="4dp" />
 
-        <!-- Skin Concerns -->
-        <TextView
-            android:text="Skin Concerns"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="@color/primary_color"
-            android:layout_marginTop="16dp" />
-        <EditText
-            android:id="@+id/edit_concerns"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/primary_color"
-            android:textColor="@color/text_color"
-            android:hint="e.g. Acne, Pigmentation"
-            android:padding="12dp"
-            android:layout_marginTop="4dp" />
-
         <!-- Current Routine -->
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Current Routine"
             android:textStyle="bold"
             android:textSize="16sp"
@@ -138,40 +181,6 @@
             android:layout_marginTop="4dp"
             android:inputType="textMultiLine"
             android:minLines="3" />
-
-        <!-- Allergies -->
-        <TextView
-            android:text="Allergies / Sensitivities"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="@color/primary_color"
-            android:layout_marginTop="16dp" />
-        <EditText
-            android:id="@+id/edit_allergies"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/primary_color"
-            android:textColor="@color/text_color"
-            android:hint="e.g. Fragrance, Alcohol"
-            android:padding="12dp"
-            android:layout_marginTop="4dp" />
-
-        <!-- Favorite Brands -->
-        <TextView
-            android:text="Favorite Brands"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="@color/primary_color"
-            android:layout_marginTop="16dp" />
-        <EditText
-            android:id="@+id/edit_brands"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/primary_color"
-            android:textColor="@color/text_color"
-            android:hint="e.g. CeraVe, The Ordinary"
-            android:padding="12dp"
-            android:layout_marginTop="4dp" />
 
         <!-- Save Button -->
         <com.google.android.material.button.MaterialButton

@@ -1,5 +1,6 @@
 package com.example.skincare.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,11 +48,30 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.ViewHold
         Product product = products.get(position);
         holder.tvName.setText(product.getName());
 
+        String imageUrl = product.getImage();
+
+        if (imageUrl != null) {
+            // Remove leading slash if exists
+            if (imageUrl.startsWith("/")) {
+                imageUrl = imageUrl.substring(1);
+            }
+
+            // Ensure base URL is added only once
+            if (!imageUrl.startsWith("http")) {
+                imageUrl = "http://192.168.100.47:8000/" + imageUrl;
+            }
+
+            // Optional: remove duplicate "image/product/" if somehow duplicated
+            imageUrl = imageUrl.replaceAll("image/product/image/product", "image/product");
+        }
+
+        Log.e("adapter", imageUrl);
 
         Glide.with(holder.itemView.getContext())
-                .load(product.getImage() != null ? product.getImage() : R.drawable.amcare)
+                .load(imageUrl)
                 .placeholder(R.drawable.amcare)
                 .into(holder.ivImage);
+
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onItemClick(product);

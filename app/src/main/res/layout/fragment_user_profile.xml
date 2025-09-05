@@ -1,153 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/background">
 
+    <!-- Top section: Back button and profile image -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:padding="24dp">
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
 
         <ImageView
             android:id="@+id/back_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_gravity="start"
             android:src="@drawable/back" />
 
-        <!-- Profile Picture -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
         <ImageView
             android:id="@+id/profile_image"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:src="@drawable/logo"
             android:background="@drawable/round"
-            android:scaleType="centerCrop"
-            android:layout_marginTop="32dp" />
+            android:scaleType="centerCrop" />
+    </LinearLayout>
 
-        <!-- Username -->
-        <TextView
-            android:id="@+id/profile_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Jane Doe"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_color"
-            android:layout_marginTop="16dp" />
+    <!-- Scrollable section for profile fields -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="24dp">
 
-        <!-- Email -->
-        <TextView
-            android:id="@+id/profile_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="janedoe@email.com"
-            android:textSize="16sp"
-            android:textColor="@color/text_color"
-            android:alpha="0.8"
-            android:layout_marginTop="4dp" />
-
-        <!-- Divider -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/primary_color"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Profile Info Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Age & Gender -->
+            <!-- Username -->
             <TextView
-                android:layout_height="wrap_content"
+                android:id="@+id/profile_name"
                 android:layout_width="wrap_content"
-                android:text="Age / Gender"
+                android:layout_height="wrap_content"
+                android:text="Jane Doe"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_color"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Email -->
+            <TextView
+                android:id="@+id/profile_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="janedoe@email.com"
+                android:textSize="16sp"
+                android:textColor="@color/text_color"
+                android:alpha="0.8"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/primary_color"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Age -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Age"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:textColor="@color/primary_color"
-                />
+                android:textColor="@color/primary_color" />
             <TextView
-                android:layout_height="wrap_content"
+                android:id="@+id/profile_age"
                 android:layout_width="wrap_content"
-                android:id="@+id/profile_age_gender"
-                android:text="26 / Female"
+                android:layout_height="wrap_content"
+                android:text="26"
+                android:textSize="18sp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Gender -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gender"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/primary_color" />
+            <TextView
+                android:id="@+id/profile_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"
                 android:textSize="18sp"
                 android:layout_marginBottom="16dp" />
 
             <!-- Skin Type -->
             <TextView
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Skin Type"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:textColor="@color/primary_color" />
             <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
                 android:id="@+id/profile_skin_type"
-                android:text="Normal to Dry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"
                 android:textSize="18sp"
                 android:layout_marginBottom="16dp" />
 
             <!-- Skin Concerns -->
             <TextView
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="Skin Concerns"
+                android:layout_height="wrap_content"
+                android:text="Concerns"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:textColor="@color/primary_color" />
             <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
                 android:id="@+id/profile_concerns"
-                android:text="Acne, Pigmentation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"
                 android:textSize="18sp"
-                android:textColor="@color/text_color"
                 android:layout_marginBottom="16dp" />
 
             <!-- Current Routine -->
             <TextView
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Current Routine"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:textColor="@color/primary_color" />
             <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
                 android:id="@+id/profile_routine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Morning: Cleanser, Vitamin C, Sunscreen\nEvening: Cleanser, Moisturizer, Retinol"
                 android:textSize="18sp"
                 android:textColor="@color/text_color"
                 android:layout_marginBottom="16dp" />
 
+            <!-- Email Verification Status -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email Status"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/primary_color" />
+            <TextView
+                android:id="@+id/profile_email_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Verified"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Edit Profile Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_edit_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edit Profile"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/background"
+                android:backgroundTint="@color/button_color"
+                android:padding="12dp"
+                app:cornerRadius="12dp"
+                android:layout_marginTop="24dp" />
 
         </LinearLayout>
+    </ScrollView>
 
-        <!-- Edit Profile Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_edit_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Edit Profile"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="@color/background"
-            android:backgroundTint="@color/button_color"
-            android:layout_marginTop="32dp"
-            android:padding="12dp"
-            app:cornerRadius="12dp" />
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

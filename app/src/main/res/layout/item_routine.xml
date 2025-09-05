@@ -26,7 +26,6 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/amcare"
             android:contentDescription="Product Image"
             android:background="@drawable/gradient_circle" />
 
@@ -47,8 +46,8 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="@null"
-            android:src="@drawable/baseline_shopping_bag_24"
-            app:tint="@color/black"
+            android:src="@drawable/delete"
+            app:tint="@color/primary_color"
             android:contentDescription="Delete"/>
     </LinearLayout>
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ProfileFragment">
+    tools:context=".fragments.ProfileFragment">
 
     <!-- Top bar with Back button -->
     <LinearLayout
@@ -108,7 +108,7 @@
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:text="Skin Profile"
+                    android:text="User Profile"
                     android:textSize="20sp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp" />
@@ -177,6 +177,7 @@
 
         <!-- Card 3: Time Spend -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/skinTypeTest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="20dp"
@@ -197,7 +198,7 @@
                     android:layout_height="30dp"
                     android:scaleType="centerCrop"
                     app:tint="@color/white"
-                    android:src="@drawable/baseline_settings_24"
+                    android:src="@drawable/face"
                     android:layout_marginEnd="8dp" />
 
                 <TextView
@@ -207,7 +208,7 @@
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:text="Settings"
+                    android:text="Skin type test"
                     android:textSize="20sp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp" />

@@ -58,9 +58,9 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
 
         // Load default doctor image
         Glide.with(context)
-                .load(R.drawable.doctor)
+                .load(R.drawable.profilepicture)
                 .circleCrop()
-                .placeholder(R.drawable.doctor)
+                .placeholder(R.drawable.profilepicture)
                 .into(holder.imgDoctor);
 
         holder.itemView.setOnClickListener(v -> {
