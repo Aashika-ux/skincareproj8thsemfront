@@ -8,8 +8,12 @@ import com.example.skincare.model.Routine;
 import com.example.skincare.model.SkinType;
 import com.example.skincare.model.UpdateProfileRequest;
 import com.example.skincare.model.UserResponse;
+import com.example.skincare.requests.GenericResponse;
 import com.example.skincare.requests.LoginRequest;
+import com.example.skincare.requests.OtpRequest;
+import com.example.skincare.requests.OtpVerifyRequest;
 import com.example.skincare.requests.RegisterRequest;
+import com.example.skincare.requests.ResetPasswordRequest;
 
 import java.util.List;
 
@@ -74,4 +78,12 @@ public interface ApiService {
     Call<UserResponse> updateProfile(@Body UpdateProfileRequest updateProfileRequest);
 
 
+    @POST("send-otp")
+    Call<GenericResponse> sendOtp(@Body OtpRequest request);
+
+    @POST("verify-otp")
+    Call<GenericResponse> verifyOtp(@Body OtpVerifyRequest request);
+
+    @POST("reset-password")
+    Call<GenericResponse> resetPassword(@Body ResetPasswordRequest request);
 }

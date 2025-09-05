@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailEt, passwordEt;
     private MaterialButton loginBtn;
     private PreferenceManager preferenceManager;
-    private TextView reg;
+    private TextView reg ,forgot_password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,14 @@ public class LoginActivity extends AppCompatActivity {
         passwordEt = findViewById(R.id.password);
         loginBtn = findViewById(R.id.btLogin);
         reg = findViewById(R.id.Register);
+        forgot_password =findViewById(R.id.forgot_password);
+
+        // Register click
+        forgot_password.setOnClickListener(v -> {
+
+            startActivity(new Intent(LoginActivity.this, ForgetPasswordActivity.class));
+        });
+
 
         // Register click
         reg.setOnClickListener(v -> {
