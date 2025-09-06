@@ -23,7 +23,7 @@
             android:background="@drawable/round"
             android:src="@drawable/logo" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/search_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -31,11 +31,11 @@
             android:drawablePadding="10dp"
             android:layout_margin="5dp"
             android:background="@drawable/rounded_square"
-            android:backgroundTint="@color/background"
             android:drawableStart="@drawable/outline_search_24"
             android:hint="Search..."
             android:inputType="text"
             android:padding="12dp" />
+
     </LinearLayout>
 
     <!-- Highlighted Product Section -->

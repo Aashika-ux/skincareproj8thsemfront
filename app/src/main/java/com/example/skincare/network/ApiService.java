@@ -26,6 +26,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
     @POST("register")
@@ -86,4 +87,8 @@ public interface ApiService {
 
     @POST("reset-password")
     Call<GenericResponse> resetPassword(@Body ResetPasswordRequest request);
+
+
+    @GET("products/search")
+    Call<ApiResponse<List<Product>>> searchProducts(@Query("q") String query);
 }
