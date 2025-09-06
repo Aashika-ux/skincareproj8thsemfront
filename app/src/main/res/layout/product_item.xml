@@ -6,7 +6,7 @@
     android:padding="8dp"
     android:background="@drawable/curved_rectangle"
     android:backgroundTint="@color/Color_RS"
-    android:layout_margin="5dp"
+    android:layout_margin="30dp"
     android:gravity="center_horizontal">
 
     <ImageView

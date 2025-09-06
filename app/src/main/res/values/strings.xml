@@ -4,7 +4,7 @@
     <string name="logo">App logo</string>
     <string name="login_label">Log In</string>
     <string name="register_label">Sign In</string>
-    <string name="login">Welcome To Your SkinCare</string>
+    <string name="login">Signup and let your skin shine</string>
     <string name="email">Email :</string>
     <string name="username">User Name : </string>
     <string name="password">Password :</string>

@@ -3,26 +3,22 @@
 
     <item
         android:id="@+id/home"
-        android:title="Home"
+
         android:icon="@drawable/baseline_home_24"/>
 
     <item
         android:id="@+id/care"
-        android:title="SkinCare"
         android:icon="@drawable/baseline_near_me_24"/>
 
     <item android:id="@+id/face"
-        android:title="Face"
         android:icon="@drawable/face"/>
 
     <item
         android:id="@+id/routine"
-        android:title="Routine"
         android:icon="@drawable/baseline_notifications_24"/>
 
     <item
         android:id="@+id/person"
-        android:title="My Profile"
         android:icon="@drawable/baseline_person_24"/>
 
 </menu>

@@ -52,7 +52,7 @@ public class SliderAdapter extends PagerAdapter {
 
         Glide.with(context)
                 .load(product.getImage())
-                .placeholder(R.drawable.slider)
+                .placeholder(R.drawable.slider_gradient_overlay)
                 .into(imageView);
 
         container.addView(view);

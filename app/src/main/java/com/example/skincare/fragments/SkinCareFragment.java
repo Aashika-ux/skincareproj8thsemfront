@@ -36,7 +36,7 @@ public class SkinCareFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_skin_care, container, false);
         recyclerView = view.findViewById(R.id.skinTypeRecycler);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
 
         fetchSkinTypes();
         return view;
