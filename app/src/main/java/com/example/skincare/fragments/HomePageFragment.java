@@ -1,6 +1,8 @@
 package com.example.skincare.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -14,10 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.skincare.R;
 import com.example.skincare.adapter.HighlightAdapter;
 import com.example.skincare.adapter.ProductAdapter;
+import com.example.skincare.adapter.SliderAdapter;
 import com.example.skincare.model.ApiResponse;
 import com.example.skincare.model.Doctor;
 import com.example.skincare.model.Product;
@@ -44,11 +48,19 @@ public class HomePageFragment extends Fragment {
     private List<String> productNames = new ArrayList<>();
     private HighlightAdapter suggestionAdapter;
 
+    // Slider
+    private ViewPager sliderViewPager;
+    private SliderAdapter sliderAdapter;
+    private List<Product> sliderProducts = new ArrayList<>();
+    private Handler sliderHandler;
+    private int currentSliderPosition = 0;
+
     public HomePageFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_home_page, container, false);
 
         recyclerProducts = view.findViewById(R.id.recycler_products);
@@ -60,39 +72,34 @@ public class HomePageFragment extends Fragment {
         productAdapter = new ProductAdapter(getContext());
         recyclerProducts.setAdapter(productAdapter);
 
-        // --- HighlightAdapter for search suggestions ---
+        // Search suggestions
         suggestionAdapter = new HighlightAdapter(getContext(),
                 android.R.layout.simple_dropdown_item_1line, productNames);
         searchInput.setAdapter(suggestionAdapter);
         searchInput.setThreshold(1);
 
-        // Click on search suggestion
         searchInput.setOnItemClickListener((parent, view1, position, id) -> {
             String selectedName = (String) parent.getItemAtPosition(position);
             for (Product p : allProducts) {
                 if (p.getName().equalsIgnoreCase(selectedName)) {
                     openProductDetail(p);
-                    searchInput.setText(""); // Clear search after click
+                    searchInput.setText("");
                     break;
                 }
             }
         });
 
-        // Live filter RecyclerView as user types
         searchInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 filterProducts(s.toString());
-                suggestionAdapter.setKeyword(s.toString()); // highlight keyword
+                suggestionAdapter.setKeyword(s.toString());
                 suggestionAdapter.notifyDataSetChanged();
             }
-            @Override
-            public void afterTextChanged(Editable s) {}
+            @Override public void afterTextChanged(Editable s) {}
         });
 
-        // RecyclerView item click
         productAdapter.setOnItemClickListener(this::openProductDetail);
 
         // Spinner filter
@@ -114,16 +121,20 @@ public class HomePageFragment extends Fragment {
                 productAdapter.setProductList(filteredProducts);
                 updateSearchSuggestions(filteredProducts);
             }
-
-            @Override
-            public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+            @Override public void onNothingSelected(android.widget.AdapterView<?> parent) {}
         });
 
+        // Slider setup
+        sliderViewPager = view.findViewById(R.id.sliderViewPager);
+        sliderProducts = new ArrayList<>();
+        sliderAdapter = new SliderAdapter(getContext(), sliderProducts);
+        sliderViewPager.setAdapter(sliderAdapter);
+
         fetchProducts();
+
         return view;
     }
 
-    // Fetch products from API
     private void fetchProducts() {
         Call<ApiResponse<List<Product>>> call = RetrofitClient.getApi(getContext()).getProducts();
         call.enqueue(new Callback<ApiResponse<List<Product>>>() {
@@ -135,7 +146,13 @@ public class HomePageFragment extends Fragment {
                     filteredProducts = new ArrayList<>(allProducts);
                     productAdapter.setProductList(filteredProducts);
 
-                    // Populate spinner
+                    // Slider
+                    sliderProducts.clear();
+                    sliderProducts.addAll(allProducts);
+                    sliderAdapter.notifyDataSetChanged();
+                    startAutoSlider();
+
+                    // Spinner
                     Set<String> recommendedSet = new LinkedHashSet<>();
                     recommendedSet.add("All");
                     for (Product p : allProducts) {
@@ -143,11 +160,9 @@ public class HomePageFragment extends Fragment {
                             recommendedSet.add(p.getRecommendedFor().trim());
                         }
                     }
-
                     spinnerFilter.setAdapter(new android.widget.ArrayAdapter<>(getContext(),
                             R.layout.spinner_selected_item, new ArrayList<>(recommendedSet)));
 
-                    // Update search suggestions
                     updateSearchSuggestions(allProducts);
 
                 } else {
@@ -162,7 +177,6 @@ public class HomePageFragment extends Fragment {
         });
     }
 
-    // Filter products in RecyclerView
     private void filterProducts(String keyword) {
         if (keyword.isEmpty()) {
             productAdapter.setProductList(filteredProducts);
@@ -177,7 +191,6 @@ public class HomePageFragment extends Fragment {
         productAdapter.setProductList(tempList);
     }
 
-    // Update search suggestions list
     private void updateSearchSuggestions(List<Product> list) {
         productNames.clear();
         for (Product p : list) {
@@ -186,7 +199,6 @@ public class HomePageFragment extends Fragment {
         suggestionAdapter.notifyDataSetChanged();
     }
 
-    // Open product details
     private void openProductDetail(Product product) {
         Bundle bundle = new Bundle();
         bundle.putInt("id", product.getId());
@@ -213,5 +225,33 @@ public class HomePageFragment extends Fragment {
                 .replace(R.id.frameFragmentLayout, detailsFragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    private void startAutoSlider() {
+        if (sliderProducts.size() == 0) return;
+
+        sliderHandler = new Handler(Looper.getMainLooper());
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (sliderProducts.size() == 0) return;
+
+                if (currentSliderPosition >= sliderProducts.size()) {
+                    currentSliderPosition = 0;
+                }
+
+                sliderViewPager.setCurrentItem(currentSliderPosition++, true);
+                sliderHandler.postDelayed(this, 3000); // 3 seconds
+            }
+        };
+        sliderHandler.postDelayed(runnable, 3000);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (sliderHandler != null) {
+            sliderHandler.removeCallbacksAndMessages(null);
+        }
     }
 }

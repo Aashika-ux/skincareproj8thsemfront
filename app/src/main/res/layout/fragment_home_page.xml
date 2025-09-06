@@ -37,75 +37,22 @@
             android:padding="12dp" />
 
     </LinearLayout>
-
-    <!-- Highlighted Product Section -->
-    <LinearLayout
-        android:id="@+id/place_details_section"
+    <!-- Slider Section -->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/sliderViewPager"
         android:layout_below="@id/search_section"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="15dp">
+        android:layout_height="290dp"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="260dp">
-
-            <ImageView
-                android:id="@+id/place_image"
-                android:layout_width="match_parent"
-                android:layout_height="260dp"
-                android:scaleType="centerCrop"
-                android:background="@drawable/curved_rectangle"
-                android:clipToOutline="true"
-                android:src="@drawable/slider" />
-
-            <LinearLayout
-                android:id="@+id/des_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:paddingBottom="10dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="10dp">
-
-                <TextView
-                    android:id="@+id/text_overlay1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Beauty Hub \nRetinol"
-                    android:textStyle="bold"
-                    android:textSize="25sp"
-                    android:padding="5dp"/>
-
-                <TextView
-                    android:id="@+id/text_overlay2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rs.2300"
-                    android:textColor="@color/background"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:padding="10dp"
-                    android:background="@drawable/curved_rectangle"
-                    android:backgroundTint="@color/primary_color" />
-
-                <TextView
-                    android:id="@+id/text_overlay3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="rapti-2,gadyauli-Chitwan"
-                    android:textSize="18sp"
-                    android:padding="5dp"/>
-            </LinearLayout>
-        </FrameLayout>
-    </LinearLayout>
 
     <!-- Recommendations Label with Spinner -->
     <LinearLayout
         android:id="@+id/recommendation_label_section"
-        android:layout_below="@id/place_details_section"
+        android:layout_below="@id/sliderViewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

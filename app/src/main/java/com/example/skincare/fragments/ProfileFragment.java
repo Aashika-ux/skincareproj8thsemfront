@@ -24,7 +24,7 @@ import retrofit2.Response;
 
 public class  ProfileFragment extends Fragment {
 
-    private CardView logoutBtn,doctorsCard,skinProfileCard, routinecard ,skinTypeTest;
+    private CardView logoutBtn,doctorsCard,skinProfileCard, routinecard ,skinTypeTest, settingBtn;
     public TextView username, text_profile_name, email;
     private PreferenceManager preferenceManager;
 
@@ -48,8 +48,16 @@ public class  ProfileFragment extends Fragment {
         skinProfileCard = view.findViewById(R.id.userProfile);
         skinTypeTest =view.findViewById(R.id.skinTypeTest);
         routinecard = view.findViewById(R.id.myroutine);
+        settingBtn = view.findViewById(R.id.settingsBtn);
 
-       skinTypeTest.setOnClickListener(v -> {
+        settingBtn.setOnClickListener(v -> {
+           SettingsFragment settingsFragment = new SettingsFragment();
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.frameFragmentLayout,settingsFragment)
+                    .addToBackStack(null) // allows back navigation
+                    .commit();
+        });
+        skinTypeTest.setOnClickListener(v -> {
             SkinQuizFragment skinQuizFragment = new SkinQuizFragment();
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.frameFragmentLayout, skinQuizFragment)

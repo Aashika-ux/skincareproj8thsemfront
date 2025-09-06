@@ -45,6 +45,11 @@ public class PreferenceManager {
         editor.remove(KEY_TOKEN);
         editor.apply();
     }
+    // Add this method
+    public void clearData() {
+        editor.clear();
+        editor.apply();
+    }
     public void clearUser() {
         editor.remove("username");
         editor.remove("email");
